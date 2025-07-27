@@ -10,10 +10,10 @@ displayName="${mod_name}"
 authors="${mod_authors}"
 description="${mod_description}"
 logoFile="logo.png"
-issueTrackerURL="${mod_issues}"
+issueTrackerURL="https://github.com/hikoma0000/Realistic-Nametag/issues"
 credits=""
 updateJSONURL=""
-displayURL="${mod_homepage}"
+displayURL="https://github.com/hikoma0000/Realistic-Nametag/tree/forge/1.20.1"
 
 
 [[dependencies."${mod_id}"]]
