@@ -44,43 +44,44 @@ public class NametagRenderEvents {
         }
     }
 
+
     private boolean shouldShowNameplate(LivingEntity entity) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null || entity == player) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Player player = minecraft.player;
+
+        if (player == null || entity == player || entity.isVehicle() || entity == minecraft.getCameraEntity()) {
+            return false;
+        }
+
+        double distanceSq = entity.distanceToSqr(player);
+        float renderDistance = entity.isDiscrete() ? 32.0F : 64.0F;
+        if (distanceSq >= (renderDistance * renderDistance)) {
+            return false;
+        }
+
+        boolean isVisible = !entity.isInvisibleTo(player);
+        if (!Minecraft.renderNames()) {
             return false;
         }
 
         if (entity.getTeam() != null) {
-            Team entityTeam = (Team)entity.getTeam();
+            Team entityTeam = entity.getTeam();
+            Team playerTeam = player.getTeam();
             Team.Visibility visibility = entityTeam.getNameTagVisibility();
+
             switch (visibility) {
+                case ALWAYS:
+                    return isVisible;
                 case NEVER:
                     return false;
                 case HIDE_FOR_OTHER_TEAMS:
-                    if (!entityTeam.isAlliedTo(player.getTeam())) return false;
-                    break;
+                    return playerTeam != null && entityTeam.isAlliedTo(playerTeam) && (entityTeam.canSeeFriendlyInvisibles() || isVisible);
                 case HIDE_FOR_OWN_TEAM:
-                    if (entityTeam.isAlliedTo(player.getTeam())) return false;
-                    break;
-                case ALWAYS:
-                    break;
+                    return (playerTeam == null || !entityTeam.isAlliedTo(playerTeam)) && isVisible;
             }
         }
 
-        if (entity instanceof Player) {
-            return true;
-        }
-
-        if (entity.isCustomNameVisible()) {
-            return true;
-        }
-
-        boolean isHovered = entity == Minecraft.getInstance().crosshairPickEntity;
-        if (isHovered && entity.hasCustomName()) {
-            return true;
-        }
-
-        return false;
+        return isVisible;
     }
 
     private void renderNametagWithDepth(LivingEntity entity, Component component, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {

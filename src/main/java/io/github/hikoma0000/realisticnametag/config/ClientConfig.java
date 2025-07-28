@@ -14,7 +14,7 @@ public class ClientConfig {
         DISABLE_IN_SPECTATOR = builder
                 .comment("If true, the mod's features will be disabled while in spectator mode.")
                 .translation("realisticnametag.config.disableInSpectator")
-                .define("disableInSpectator", true); // デフォルト値は true
+                .define("disableInSpectator", true);
 
         builder.pop();
 

@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
-#issueTrackerURL=""
+
 
 [[mods]]
 modId="${mod_id}"
@@ -10,13 +10,16 @@ displayName="${mod_name}"
 authors="${mod_authors}"
 description="${mod_description}"
 logoFile="logo.png"
-
+issueTrackerURL="https://github.com/hikoma0000/Realistic-Nametag/issues"
+credits=""
+updateJSONURL=""
+displayURL="https://github.com/hikoma0000/Realistic-Nametag/tree/forge/1.20.1"
 
 
 [[dependencies."${mod_id}"]]
 modId="forge"
 mandatory=true
-versionRange="${forge_version_range}"
+versionRange="${loader_version_range}"
 ordering="NONE"
 side="BOTH"
 
