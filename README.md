@@ -20,5 +20,3 @@ You can configure the mod by editing the `config/realisticnametag-client.toml` i
 - **`enableMod`**: Set to `false` to completely disable the mod's features. (Default: `true`)
 
 - **`disableInSpectator`**: Set this to `false` if you want the mod's effects to remain active while in spectator mode. (Default: `true`)
-
-``
