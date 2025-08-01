@@ -21,11 +21,12 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.joml.Matrix4f;
 
+
 public class NametagRenderEvents {
 
     @SubscribeEvent
     public void onRenderNameTag(RenderNameTagEvent event) {
-        if (!ClientConfig.ENABLE_MOD.get()) return;
+        if (ClientConfig.DISABLE_MOD.get()) return;
 
         Player localPlayer = Minecraft.getInstance().player;
         if (localPlayer == null) return;
@@ -34,10 +35,9 @@ public class NametagRenderEvents {
 
 
 
-        event.setResult(Event.Result.DENY);
         Entity entity = event.getEntity();
-
         if (this.shouldShowNameTag(entity, localPlayer)) {
+            event.setResult(Event.Result.DENY);
             Component nameToShow = this.getNameToDisplay(entity, event.getContent());
             if (nameToShow != null) {
                 renderNametagWithDepth(entity, nameToShow, event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
@@ -52,13 +52,16 @@ public class NametagRenderEvents {
 
         if (entity instanceof Player p) {
             return !p.isInvisibleTo(localPlayer) && isTeamVisible(p, localPlayer);
-        } else if (entity instanceof ItemFrame frame) {
+        }
+
+        else if (entity instanceof ItemFrame frame) {
             if (Minecraft.getInstance().crosshairPickEntity == frame) {
                 ItemStack stack = frame.getItem();
                 return !stack.isEmpty() && stack.hasCustomHoverName();
             }
             return false;
         }
+
         else if (entity instanceof Mob mob) {
             if (mob.isVehicle()) {
                 return false;
@@ -70,12 +73,15 @@ public class NametagRenderEvents {
 
             return mob.isCustomNameVisible() || (Minecraft.getInstance().crosshairPickEntity == mob && mob.hasCustomName());
         }
+
         else if (entity instanceof EnderDragon) {
             return entity.hasCustomName() && entity.isCustomNameVisible();
         }
+
         else if (entity instanceof LivingEntity living) {
             return living.isCustomNameVisible();
         }
+
         else {
             return entity.hasCustomName() && entity.isCustomNameVisible();
         }

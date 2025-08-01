@@ -12,6 +12,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import io.github.hikoma0000.realisticnametag.client.NametagRenderEvents;
 
+
 @SuppressWarnings("removal")
 @Mod(RealisticNametag.MOD_ID)
 public class RealisticNametag {
@@ -24,7 +25,6 @@ public class RealisticNametag {
         modEventBus.addListener(this::init);
         MinecraftForge.EVENT_BUS.register(new NametagRenderEvents());
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, "realisticnametag-client.toml");
-
     }
 
     private void init(final FMLCommonSetupEvent event) {
