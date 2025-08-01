@@ -8,9 +8,7 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 authors="${mod_authors}"
-description='''
-Makes name tag behave realistically, hiding them behind blocks and objects.
-'''
+description="${mod_description}"
 logoFile="logo.png"
 issueTrackerURL="https://github.com/hikoma0000/Realistic-Nametag/issues"
 credits=""
