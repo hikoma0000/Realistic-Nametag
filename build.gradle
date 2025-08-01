@@ -1,0 +1,209 @@
+buildscript {
+    repositories {
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+}
+
+apply plugin: 'org.spongepowered.mixin'
+
+group = mod_group_id
+version = mod_version
+
+base {
+    archivesName = mod_id
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(8)
+}
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+
+    runs {
+
+        client {
+            workingDirectory project.file('run/client')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                "${modid}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client2 {
+            parent minecraft.runs.client
+
+            workingDirectory project.file('run/client2')
+            args '--username', 'Dev2'
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run/gameTestServer')
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run/data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+//mixin {
+//    add sourceSets.main, "${mod_id}.refmap.json"
+//    config "${mod_id}.mixins.json"
+//}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven {
+        name = "Curse Maven"
+        url = "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+
+    maven {
+        name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+
+    maven { url "https://maven.shedaniel.me/" }
+
+
+    // If you have mod jar dependencies in ./libs, you can declare them as a repository like so.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:flat_dir_resolver
+    flatDir {
+        dir 'libs'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+//    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
+//    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+//    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+
+//    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6"))
+//    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
+//        jarJar.ranged(it, "[0.4.1,)")
+//    }
+
+//    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
+//    compileOnly fg.deobf("libs:auto_tool_1.0.0_mc1.20.1_forge47.4.0")
+
+
+//    implementation fg.deobf("curse.maven:selene-499980:6507197")
+//    runtimeOnly fg.deobf("curse.maven:geckolib-388172:6622543")
+//    implementation fg.deobf("curse.maven:configured-457570:5180900")
+//    implementation fg.deobf("curse.maven:curios-309927:6418456")
+//    implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
+//    implementation fg.deobf("curse.maven:ferritecore-429235:4810975")
+//    implementation fg.deobf("curse.maven:mouse-tweaks-60089:5338457")
+
+
+
+//    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+//    runtimeOnly fg.deobf("maven.modrinth:curtain:4gKjMbeX")
+//    runtimeOnly fg.deobf("curse.maven:rrls-833233:5423270")
+//    implementation fg.deobf("curse.maven:jade-324717:6271651")
+//    implementation fg.deobf("curse.maven:xaeros-world-map-317780:6538337")
+//
+//
+//
+//    implementation fg.deobf("curse.maven:carry-on-274259:4882500")
+//    runtimeOnly fg.deobf("curse.maven:hole-filler-mod-440585:4588152")
+//
+//
+//    runtimeOnly fg.deobf("curse.maven:immersive-aircraft-666014:6316345")
+//    runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
+//    runtimeOnly fg.deobf("curse.maven:timeless-and-classics-zero-1028108:6654541")//    runtimeOnly fg.deobf("curse.maven:superb-warfare-1218165:6633653")
+
+
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+                             forge_version       : forge_version, forge_version_range: forge_version_range,
+                             loader_version_range: loader_version_range,
+                             mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+                             mod_authors         : mod_authors, mod_description: mod_description,]
+
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes(["Specification-Title"     : mod_id,
+                    "Specification-Vendor"    : mod_authors,
+                    "Specification-Version"   : mod_version,
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : project.jar.archiveVersion,
+                    "Implementation-Vendor"   : mod_authors,
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")])
+    }
+
+    finalizedBy 'reobfJar'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
