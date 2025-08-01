@@ -22,8 +22,7 @@ eclipse
 run
 run-data
 
-@exp
-gallery
+@exp/*
 *.py
 
 
