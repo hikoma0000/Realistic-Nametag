@@ -17,7 +17,7 @@ public class ClientConfig {
         DISABLE_MOD = builder
                 .comment("Set to true to completely disable the mod's features.")
                 .translation("realisticnametag.config.disableMOD")
-                .define("disableMOD", true);
+                .define("disableMOD", false);
 
         DISABLE_IN_SPECTATOR = builder
                 .comment("If true, the mod's features will be disabled while in spectator mode.")

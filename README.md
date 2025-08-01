@@ -17,6 +17,6 @@
 ## Configuration
 You can configure the mod by editing the `config/realisticnametag-client.toml` in your Minecraft folder.
 
-- **`enableMod`**: Set to `false` to completely disable the mod's features. (Default: `true`)
+- **`disableMod`**: Set to `true` to completely disable the mod's features. (Default: `false`)
 
 - **`disableInSpectator`**: Set this to `false` if you want the mod's effects to remain active while in spectator mode. (Default: `true`)
