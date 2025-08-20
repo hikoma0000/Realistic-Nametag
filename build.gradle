@@ -37,7 +37,7 @@ minecraft {
             workingDirectory project.file('run/client')
             property 'forge.logging.console.level', 'debug'
             mods {
-                "${modid}" {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -81,10 +81,10 @@ minecraft {
     }
 }
 
-//mixin {
-//    add sourceSets.main, "${mod_id}.refmap.json"
-//    config "${mod_id}.mixins.json"
-//}
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
@@ -125,13 +125,22 @@ repositories {
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:flat_dir_resolver
+    mavenCentral() // MixinExtras is there
+    mavenLocal()
     flatDir {
         dir 'libs'
     }
+
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+//    implementation fg.deobf(files('libs/.jar'))
+    compileOnly files('libs/namepain-1.5.0-forge-1.20.x.jar')
+
 
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
@@ -142,37 +151,42 @@ dependencies {
         jarJar.ranged(it, "[0.4.1,)")
     }
 
-//    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
-//    compileOnly fg.deobf("libs:auto_tool_1.0.0_mc1.20.1_forge47.4.0")
+    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
+    implementation fg.deobf("curse.maven:blockui-522992:6646544")
+    implementation fg.deobf("curse.maven:domum-ornamentum-527361:6870756")
+    implementation fg.deobf("curse.maven:structurize-298744:6887040")
+    implementation fg.deobf("curse.maven:minecolonies-245506:6888743")
 
 
-    implementation fg.deobf("curse.maven:selene-499980:6507197")
-    runtimeOnly fg.deobf("curse.maven:geckolib-388172:6622543")
+//
+//    implementation fg.deobf("curse.maven:selene-499980:6507197")
+//    runtimeOnly fg.deobf("curse.maven:geckolib-388172:6622543")
     implementation fg.deobf("curse.maven:configured-457570:5180900")
-    implementation fg.deobf("curse.maven:curios-309927:6418456")
-    implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
-    implementation fg.deobf("curse.maven:ferritecore-429235:4810975")
-    implementation fg.deobf("curse.maven:mouse-tweaks-60089:5338457")
+//    implementation fg.deobf("curse.maven:curios-309927:6418456")
+//    implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
+//    implementation fg.deobf("curse.maven:ferritecore-429235:4810975")
+//    implementation fg.deobf("curse.maven:mouse-tweaks-60089:5338457")
+//
+//
+//
+//    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+//    runtimeOnly fg.deobf("maven.modrinth:curtain:4gKjMbeX")
+//    runtimeOnly fg.deobf("curse.maven:rrls-833233:5423270")
+//    implementation fg.deobf("curse.maven:jade-324717:6271651")
+//    implementation fg.deobf("curse.maven:xaeros-world-map-317780:6538337")
+//
+//
+//
+//    implementation fg.deobf("curse.maven:carry-on-274259:4882500")
+//    runtimeOnly fg.deobf("curse.maven:hole-filler-mod-440585:4588152")
+//
+//
+//    runtimeOnly fg.deobf("curse.maven:immersive-aircraft-666014:6316345")
+//    runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
+//    runtimeOnly fg.deobf("curse.maven:timeless-and-classics-zero-1028108:6654541")//    runtimeOnly fg.deobf("curse.maven:superb-warfare-1218165:6633653")
 
 
-
-    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
-    runtimeOnly fg.deobf("maven.modrinth:curtain:4gKjMbeX")
-    runtimeOnly fg.deobf("curse.maven:rrls-833233:5423270")
-    implementation fg.deobf("curse.maven:jade-324717:6271651")
-    implementation fg.deobf("curse.maven:xaeros-world-map-317780:6538337")
-
-
-
-    implementation fg.deobf("curse.maven:carry-on-274259:4882500")
-    runtimeOnly fg.deobf("curse.maven:hole-filler-mod-440585:4588152")
-
-
-    runtimeOnly fg.deobf("curse.maven:immersive-aircraft-666014:6316345")
-    runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6237015")
-    runtimeOnly fg.deobf("curse.maven:timeless-and-classics-zero-1028108:6654541")//    runtimeOnly fg.deobf("curse.maven:superb-warfare-1218165:6633653")
-
-
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -199,6 +213,7 @@ tasks.named('jar', Jar).configure {
                     "Implementation-Vendor"   : mod_authors,
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")])
     }
+
 
     finalizedBy 'reobfJar'
 }
