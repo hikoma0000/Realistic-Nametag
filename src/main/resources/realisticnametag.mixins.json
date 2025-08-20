@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "refmap": "realisticnametag.refmap.json",
+  "minVersion": "0.8",
+  "package": "io.github.hikoma0000.realisticnametag.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "client.EntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
