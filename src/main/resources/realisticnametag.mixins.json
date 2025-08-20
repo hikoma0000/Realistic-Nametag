@@ -4,7 +4,6 @@
   "minVersion": "0.8",
   "package": "io.github.hikoma0000.realisticnametag.mixin",
   "compatibilityLevel": "JAVA_17",
-  "plugin": "io.github.hikoma0000.realisticnametag.mixin.MixinPlugin",
   "mixins": [
   ],
   "client": [
