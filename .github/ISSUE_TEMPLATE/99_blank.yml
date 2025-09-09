@@ -1,6 +1,6 @@
-name: "Blank Issue"
+name: "Other Issue"
 description: "For issues that don't fit any other template."
-title: "Other Issue"
+title: "[Other Issue]: "
 labels: [ "status/not-yet-confirmed" ]
 
 body:
