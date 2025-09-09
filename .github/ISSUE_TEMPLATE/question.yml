@@ -1,5 +1,5 @@
-name: Question
-description: Ask a question about the project.
+name: "Question"
+description: "Ask a question about the project."
 title: "[Question]: "
 labels: ["type/question", "status/not-yet-confirmed"]
 body:

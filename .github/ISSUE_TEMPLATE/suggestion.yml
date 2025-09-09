@@ -1,5 +1,5 @@
-name: Suggestion
-description: Suggest a new feature for the project.
+name: "Suggestion"
+description: "Suggest a new feature for the project."
 title: "[Suggestion]: "
 labels: ["type/suggestion", "status/not-yet-confirmed"]
 body:

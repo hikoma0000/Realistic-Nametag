@@ -5,6 +5,10 @@ labels:
     color: "#d73a4a"
     description: "Something isn't working as expected."
 
+  - name: "type/crash"
+    color: "#d93f0b"
+    description: "The game or application is closing unexpectedly."
+
   - name: "type/compatibility"
     color: "d4c5f9"
     description: "Related to compatibility with other systems, versions, or environments."
