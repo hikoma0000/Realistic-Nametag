@@ -110,6 +110,30 @@ labels:
     description: "Related to performance."
 
 
+  # --- loader ---
+  - name: "forge"
+    color: "#212b44"
+    description: ""
+  - name: "neoforge"
+    color: "#d7742f"
+    description: ""
+  - name: "fabric"
+    color: "#dbd0b4"
+    description: ""
+
+
+  # --- version ---
+  - name: "1.20.1"
+    color: "#808080"
+    description: ""
+  - name: "1.21.1"
+    color: "#808080"
+    description: ""
+  - name: "1.16.5"
+    color: "#808080"
+    description: ""
+
+
   # --- other ---
   - name: "fixed in next release"
     color: "fbca04"
