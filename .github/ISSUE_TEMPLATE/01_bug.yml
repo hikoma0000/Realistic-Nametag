@@ -9,9 +9,9 @@ body:
     attributes:
       label: I have confirmed that ...
       options:
-        - label: The bug does not occur without ATR.
+        - label: The bug does not occur without this Mod.
           required: true
-        - label: ATR is up to date.
+        - label: This mod is up to date.
           required: true
 
   - type: textarea
@@ -26,7 +26,7 @@ body:
   - type: input
     id: versions
     attributes:
-      label: Minecraft, Modloader and ATR version
+      label: Minecraft, Modloader and Mod version
       description: |
         The version of Minecraft you are using, the mod loader (forge/fabric) and its version, and the version of this Mod.
         These can be found in the corner of the main menu, in the log on startup, or in the name of the downloaded file.

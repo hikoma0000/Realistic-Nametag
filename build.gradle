@@ -157,6 +157,11 @@ dependencies {
     implementation fg.deobf("curse.maven:structurize-298744:6887040")
     implementation fg.deobf("curse.maven:minecolonies-245506:6888743")
 
+    implementation fg.deobf("curse.maven:xaeros-world-map-317780:6778091")
+    implementation fg.deobf("curse.maven:xaeros-minimap-263420:6778028")
+
+
+
 
 //
 //    implementation fg.deobf("curse.maven:selene-499980:6507197")
@@ -169,8 +174,8 @@ dependencies {
 //
 //
 //
-//    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
-//    runtimeOnly fg.deobf("maven.modrinth:curtain:4gKjMbeX")
+    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+    runtimeOnly fg.deobf("maven.modrinth:curtain:4gKjMbeX")
 //    runtimeOnly fg.deobf("curse.maven:rrls-833233:5423270")
 //    implementation fg.deobf("curse.maven:jade-324717:6271651")
 //    implementation fg.deobf("curse.maven:xaeros-world-map-317780:6538337")

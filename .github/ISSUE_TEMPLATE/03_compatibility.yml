@@ -11,7 +11,7 @@ body:
   - type: input
     id: versions
     attributes:
-      label: Minecraft, Modloader, and ATR Version
+      label: Minecraft, Modloader, and Mod Version
       description: "Please provide the versions of Minecraft, your modloader (Forge/Fabric), and this mod."
     validations:
       required: true
