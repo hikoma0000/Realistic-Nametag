@@ -2,8 +2,7 @@ package io.github.hikoma0000.realisticnametag.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-
-public class ClientConfig {
+public class ServerConfig {
 
     public static final ForgeConfigSpec SPEC;
     public static final ForgeConfigSpec.BooleanValue DISABLE_MOD;

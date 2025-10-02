@@ -1,6 +1,6 @@
 package io.github.hikoma0000.realisticnametag.mixin.client;
 
-import io.github.hikoma0000.realisticnametag.config.ClientConfig;
+import io.github.hikoma0000.realisticnametag.config.ServerConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -21,12 +21,13 @@ public abstract class EntityRendererMixin<T extends Entity> {
             index = 7
     )
     private Font.DisplayMode conditionallyForceDepthTest(Font.DisplayMode originalMode) {
-        if (ClientConfig.DISABLE_MOD.get()) {
+        if (ServerConfig.DISABLE_MOD.get()) {
             return originalMode;
         }
 
         Player player = Minecraft.getInstance().player;
-        if (player != null && player.isSpectator() && ClientConfig.DISABLE_IN_SPECTATOR.get()) {
+
+        if (player != null && player.isSpectator() && ServerConfig.DISABLE_IN_SPECTATOR.get()) {
             return originalMode;
         }
 
