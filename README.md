@@ -7,6 +7,8 @@
 
 - If a name tag is partially obstructed, only the visible part will be drawn.
 
+- If this mod is installed on the server, clients must also have it installed to join. This ensures fairness.
+
 ---
 
 ## Configuration
