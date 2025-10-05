@@ -139,7 +139,7 @@ dependencies {
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation fg.deobf(files('libs/.jar'))
-    compileOnly files('libs/namepain-1.5.0-forge-1.20.x.jar')
+//    compileOnly files('libs/namepain-1.5.0-forge-1.20.x.jar')
 
 
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
@@ -182,7 +182,7 @@ dependencies {
 //
 //
 //
-//    implementation fg.deobf("curse.maven:carry-on-274259:4882500")
+    implementation fg.deobf("curse.maven:carry-on-274259:4882500")
 //    runtimeOnly fg.deobf("curse.maven:hole-filler-mod-440585:4588152")
 //
 //

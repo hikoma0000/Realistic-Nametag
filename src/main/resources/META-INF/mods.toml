@@ -29,3 +29,10 @@ mandatory=true
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies."${mod_id}"]]
+modId="carryon"
+mandatory=false
+versionRange="[2.1.2.7,)"
+ordering="NONE"
+side="BOTH"
