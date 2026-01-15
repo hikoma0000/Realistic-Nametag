@@ -32,10 +32,3 @@ mandatory=true
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
-
-[[dependencies."${mod_id}"]]
-modId="carryon"
-type="optional"
-versionRange="[2.2.2.11,)"
-ordering="NONE"
-side="BOTH"
