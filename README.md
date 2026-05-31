@@ -1,5 +1,9 @@
 ![example](https://github.com/user-attachments/assets/4b644ee7-1685-435d-bdee-b18cf5cb2ca8)
 
+<a href="https://minecraftforge.net/"><img alt="forge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg"></a> <a href="https://neoforged.net/"><img alt="neoforge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/neoforge_vector.svg"></a>
+<a href="https://github.com/hikoma0000/Realistic-Nametag/issues"><img alt="issues-and-suggestions-on-github" src="https://raw.githubusercontent.com/hikoma0000/MinecraftBadges/e83b7ab154dab909ec85e99091282b02bff3bff3/github/issues_and_suggestions_on_github.svg"></a>
+
+
 ---
 
 ## Features
@@ -20,5 +24,17 @@ You can configure the mod by editing the `[Server Folder]/saves/[World Name]/ser
 
 ---
 
+## Compatibility
+This mod is compatible with the following mods:
+- **Simple Voice Chat**
+- **Essential Mod**
+- **Figura**
+
+---
+
 ## Known Issues
 Currently, there is an incompatibility with the `namepain` mod. A solution is being investigated.
+
+## My Mods
+
+[![](https://github.com/hikoma0000/Advancement-Trophies-Reforged/blob/gallery/data/logo.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/advancement-trophies-reforged)[![](https://github.com/hikoma0000/Inspectability-Reforged/blob/gallery/data/logo.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/inspectability-reforged)

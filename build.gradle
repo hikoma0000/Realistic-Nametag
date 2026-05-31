@@ -37,6 +37,8 @@ minecraft {
         client {
             workingDirectory project.file('run/client')
             property 'forge.logging.console.level', 'debug'
+            // args '--username', 'Dev'
+            
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -46,16 +48,16 @@ minecraft {
 
         client2 {
             parent minecraft.runs.client
-
             workingDirectory project.file('run/client2')
             args '--username', 'Dev2'
-
+            
             mods {
                 "${mod_id}" {
                     source sourceSets.main
                 }
             }
         }
+
 
         server {
             workingDirectory project.file('run/server')
@@ -123,6 +125,11 @@ repositories {
 
     maven { url "https://maven.shedaniel.me/" }
 
+    maven {
+        name = "Simple Voice Chat Maven"
+        url = "https://maven.maxhenkel.de/repository/public"
+    }
+
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:flat_dir_resolver
@@ -137,7 +144,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // implementation fg.deobf(fileTree(dir: 'libs', include: ['*.jar']))
 
 //    implementation fg.deobf(files('libs/.jar'))
 //    compileOnly files('libs/namepain-1.5.0-forge-1.20.x.jar')
@@ -147,19 +154,21 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
 
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
-        jarJar.ranged(it, "[0.4.1,)")
-    }
+//    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6"))
+//    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
+//        jarJar.ranged(it, "[0.4.1,)")
+//    }
 
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
-    implementation fg.deobf("curse.maven:blockui-522992:6646544")
-    implementation fg.deobf("curse.maven:domum-ornamentum-527361:6870756")
-    implementation fg.deobf("curse.maven:structurize-298744:6887040")
-    implementation fg.deobf("curse.maven:minecolonies-245506:6888743")
 
-    implementation fg.deobf("curse.maven:xaeros-world-map-317780:6778091")
-    implementation fg.deobf("curse.maven:xaeros-minimap-263420:6778028")
+    compileOnly "de.maxhenkel.voicechat:voicechat-api:2.6.13"
+    compileOnly files('libs/Essential_1-3-10-9_forge_1-20-1.jar')
+    compileOnly "maven.modrinth:figura:4HqSmvZ6"
+
+
+
+
+
 
 
 
@@ -200,7 +209,10 @@ tasks.named('processResources', ProcessResources).configure {
                              forge_version       : forge_version, forge_version_range: forge_version_range,
                              loader_version_range: loader_version_range,
                              mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-                             mod_authors         : mod_authors, mod_description: mod_description,]
+                             mod_authors         : mod_authors, mod_description: mod_description,
+                             mod_logo_file       : mod_logo_file, mod_issue_tracker_url: mod_issue_tracker_url,
+                             mod_credits         : mod_credits, mod_update_json_url: mod_update_json_url,
+                             mod_display_url     : mod_display_url,]
 
     inputs.properties replaceProperties
 

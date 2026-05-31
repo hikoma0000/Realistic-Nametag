@@ -9,11 +9,11 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="${mod_authors}"
 description="${mod_description}"
-logoFile="logo.png"
-issueTrackerURL="https://github.com/hikoma0000/Realistic-Nametag/issues"
-credits=""
-updateJSONURL=""
-displayURL="https://github.com/hikoma0000/Realistic-Nametag/tree/forge/1.20.1"
+logoFile="${mod_logo_file}"
+issueTrackerURL="${mod_issue_tracker_url}"
+credits="${mod_credits}"
+updateJSONURL="${mod_update_json_url}"
+displayURL="${mod_display_url}"
 
 
 [[dependencies."${mod_id}"]]
