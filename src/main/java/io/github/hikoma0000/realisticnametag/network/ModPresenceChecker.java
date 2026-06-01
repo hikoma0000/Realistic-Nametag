@@ -8,12 +8,11 @@ import net.minecraftforge.network.simple.SimpleChannel;
 @SuppressWarnings("removal")
 public class ModPresenceChecker {
 
-    private static final String PROTOCOL_VERSION = "2";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(RealisticNametag.MOD_ID, "main"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals);
+            new ResourceLocation(RealisticNametag.MOD_ID, "presence_check"),
+            () -> RealisticNametag.PROTOCOL_VERSION,
+            RealisticNametag.PROTOCOL_VERSION::equals,
+            RealisticNametag.PROTOCOL_VERSION::equals);
 
     public static void register() {
     }
