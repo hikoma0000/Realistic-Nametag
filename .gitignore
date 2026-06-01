@@ -13,6 +13,9 @@ out
 *.iml
 .idea
 
+# vscode
+.vscode/
+
 # gradle
 build
 .gradle
@@ -23,3 +26,7 @@ run
 test
 logs
 .run
+
+# local
+libs/
+myfiles/

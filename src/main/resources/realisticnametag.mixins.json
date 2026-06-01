@@ -6,7 +6,9 @@
   "mixins": [
   ],
   "client": [
-    "client.EntityRendererMixin"
+    "client.EntityRendererMixin",
+    "client.RenderSystemMixin",
+    "client.compat.VoiceChatCompatMixin"
   ],
   "server": [
   ],

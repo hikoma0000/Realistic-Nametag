@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 public class RealisticNametag {
     public static final String MOD_ID = "realisticnametag";
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final String NETWORK_VERSION = "1";
+    private static final String NETWORK_VERSION = "2";
 
     private final ModContainer modContainer;
 
