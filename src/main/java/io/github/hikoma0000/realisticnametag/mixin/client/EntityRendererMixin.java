@@ -38,6 +38,19 @@ public abstract class EntityRendererMixin<T extends Entity> {
         return true;
     }
 
+    @ModifyVariable(
+            method = "renderNameTag(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/network/chat/Component;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IF)V",
+            at = @At("HEAD"),
+            argsOnly = true
+    )
+    private MultiBufferSource modifyBufferSource(MultiBufferSource original) {
+        if (shouldApplyRealisticNametag()) {
+            return DelayedNametagRenderer.INSTANCE;
+        }
+        return original;
+    }
+
+
     @Redirect(
             method = "renderNameTag(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/network/chat/Component;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IF)V",
             at = @At(
