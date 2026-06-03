@@ -12,6 +12,32 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin<T extends Entity> {
 
+    private boolean shouldApplyRealisticNametag() {
+        if (ServerConfig.DISABLE_MOD.get()) {
+            return false;
+        }
+
+        PlayerEntity player = Minecraft.getInstance().player;
+        if (player != null && player.isSpectator() && ServerConfig.DISABLE_IN_SPECTATOR.get()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @org.spongepowered.asm.mixin.injection.ModifyVariable(
+            method = "renderNameTag(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/text/ITextComponent;Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V",
+            at = @At("HEAD"),
+            argsOnly = true,
+            ordinal = 0
+    )
+    private net.minecraft.client.renderer.IRenderTypeBuffer modifyBufferSource(net.minecraft.client.renderer.IRenderTypeBuffer originalBuffer) {
+        if (shouldApplyRealisticNametag()) {
+            return io.github.hikoma0000.realisticnametag.client.DelayedNametagRenderer.INSTANCE;
+        }
+        return originalBuffer;
+    }
+
     @ModifyArg(
             method = "renderNameTag(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/text/ITextComponent;Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V",
             at = @At(
@@ -22,16 +48,9 @@ public abstract class EntityRendererMixin<T extends Entity> {
             index = 7
     )
     private boolean conditionallyForceDepthTest(boolean seeThrough) {
-        if (ServerConfig.DISABLE_MOD.get()) {
-            return seeThrough;
+        if (shouldApplyRealisticNametag()) {
+            return false;
         }
-
-        PlayerEntity player = Minecraft.getInstance().player;
-
-        if (player != null && player.isSpectator() && ServerConfig.DISABLE_IN_SPECTATOR.get()) {
-            return seeThrough;
-        }
-
-        return false;
+        return seeThrough;
     }
 }

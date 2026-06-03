@@ -14,12 +14,14 @@ import org.apache.logging.log4j.Logger;
 @Mod(RealisticNametag.MOD_ID)
 public class RealisticNametag {
     public static final String MOD_ID = "realisticnametag";
+    public static final String PROTOCOL_VERSION = "2";
     private static final Logger LOGGER = LogManager.getLogger();
 
     public RealisticNametag() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::init);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, "realisticnametag-server.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC,
+                "realisticnametag-server.toml");
     }
 
     private void init(final FMLCommonSetupEvent event) {

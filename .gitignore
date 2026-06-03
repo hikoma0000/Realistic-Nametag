@@ -13,6 +13,9 @@ out
 *.iml
 .idea
 
+# vscode
+.vscode/
+
 # gradle
 build
 .gradle
@@ -26,3 +29,5 @@ run-data
 # Files from Forge MDK
 forge*changelog.txt
 
+libs/
+myfiles/
