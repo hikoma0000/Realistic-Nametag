@@ -37,4 +37,4 @@ Currently, there is an incompatibility with the `namepain` mod. A solution is be
 
 ## My Mods
 
-[![](https://github.com/hikoma0000/Advancement-Trophies-Reforged/blob/gallery/data/logo.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/advancement-trophies-reforged)[![](https://github.com/hikoma0000/Inspectability-Reforged/blob/gallery/data/logo.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/inspectability-reforged)
+<a href="https://www.curseforge.com/minecraft/mc-mods/advancement-trophies-reforged" rel="nofollow"><img src="https://github.com/hikoma0000/Advancement-Trophies-Reforged/blob/gallery/data/logo.png?raw=true" alt="" width="150" height="150"></a> <a href="https://www.curseforge.com/minecraft/mc-mods/inspectability-reforged" rel="nofollow"><img src="https://github.com/hikoma0000/Inspectability-Reforged/blob/gallery/logo.png?raw=true" alt="" width="150" height="150"></a>
