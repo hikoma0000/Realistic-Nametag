@@ -28,5 +28,6 @@ logs
 .run
 
 # local
+builds/
 libs/
 myfiles/
