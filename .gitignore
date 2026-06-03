@@ -30,4 +30,5 @@ run-data
 forge*changelog.txt
 
 libs/
+builds/
 myfiles/
