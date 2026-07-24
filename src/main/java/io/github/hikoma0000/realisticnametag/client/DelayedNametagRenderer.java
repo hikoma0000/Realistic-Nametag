@@ -1,9 +1,7 @@
 package io.github.hikoma0000.realisticnametag.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -16,40 +14,34 @@ import io.github.hikoma0000.realisticnametag.RealisticNametag;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SequencedMap;
 
 @EventBusSubscriber(modid = RealisticNametag.MOD_ID, value = Dist.CLIENT)
 public class DelayedNametagRenderer implements MultiBufferSource {
     public static final DelayedNametagRenderer INSTANCE = new DelayedNametagRenderer();
     public static boolean isFlushing = false;
 
-    private final Map<RenderType, ByteBufferBuilder> byteBufferBuilders = new LinkedHashMap<>();
-    private final Map<RenderType, BufferBuilder> builders = new LinkedHashMap<>();
+    // Fixed per-type allocators so type switches do not flush before AFTER_TRANSLUCENT_BLOCKS.
+    private final SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers = new LinkedHashMap<>();
+    private final MultiBufferSource.BufferSource bufferSource =
+            MultiBufferSource.immediateWithBuffers(fixedBuffers, new ByteBufferBuilder(256));
 
     private DelayedNametagRenderer() {
     }
 
     @Override
     public VertexConsumer getBuffer(RenderType renderType) {
-        BufferBuilder builder = builders.get(renderType);
-        if (builder == null) {
-            ByteBufferBuilder byteBufferBuilder = byteBufferBuilders.computeIfAbsent(renderType,
-                    rt -> new ByteBufferBuilder(1536));
-            builder = new BufferBuilder(byteBufferBuilder, renderType.mode(), renderType.format());
-            builders.put(renderType, builder);
-        }
-        return builder;
+        fixedBuffers.computeIfAbsent(renderType, rt -> new ByteBufferBuilder(1536));
+        return bufferSource.getBuffer(renderType);
     }
 
     public void flush() {
-        if (builders.isEmpty())
-            return;
-
         isFlushing = true;
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(515);
 
-        List<RenderType> types = new ArrayList<>(builders.keySet());
+        // Draw voice-chat intensity overlays after nametag text/background.
+        List<RenderType> types = new ArrayList<>(fixedBuffers.keySet());
         types.sort((t1, t2) -> {
             boolean isT1Intensity = t1.toString().contains("intensity");
             boolean isT2Intensity = t2.toString().contains("intensity");
@@ -61,18 +53,10 @@ public class DelayedNametagRenderer implements MultiBufferSource {
         });
 
         for (RenderType renderType : types) {
-            BufferBuilder builder = builders.get(renderType);
-            MeshData meshData = builder.build();
-            if (meshData != null) {
-                if (renderType.sortOnUpload()) {
-                    ByteBufferBuilder byteBufferBuilder = byteBufferBuilders.get(renderType);
-                    meshData.sortQuads(byteBufferBuilder, RenderSystem.getVertexSorting());
-                }
-                renderType.draw(meshData);
-            }
+            bufferSource.endBatch(renderType);
         }
+        bufferSource.endLastBatch();
 
-        builders.clear();
         isFlushing = false;
     }
 
