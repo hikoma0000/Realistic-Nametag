@@ -9,6 +9,7 @@
   "client": [
     "client.EntityRendererMixin",
     "client.RenderSystemMixin",
+    "client.WorldRendererMixin",
     "client.compat.VoiceChatCompatMixin"
   ],
   "server": [

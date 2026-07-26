@@ -2,20 +2,16 @@ package io.github.hikoma0000.realisticnametag.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import io.github.hikoma0000.realisticnametag.RealisticNametag;
+import net.minecraft.client.shader.Framebuffer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = RealisticNametag.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DelayedNametagRenderer implements IRenderTypeBuffer {
     public static final DelayedNametagRenderer INSTANCE = new DelayedNametagRenderer();
     public static boolean isFlushing = false;
@@ -27,38 +23,60 @@ public class DelayedNametagRenderer implements IRenderTypeBuffer {
 
     @Override
     public IVertexBuilder getBuffer(RenderType renderType) {
-        BufferBuilder builder = buffers.get(renderType);
-        if (builder == null) {
-            builder = new BufferBuilder(renderType.bufferSize());
+        BufferBuilder builder = buffers.computeIfAbsent(renderType, rt -> new BufferBuilder(rt.bufferSize()));
+        if (!builder.building()) {
             builder.begin(renderType.mode(), renderType.format());
-            buffers.put(renderType, builder);
         }
         return builder;
     }
 
     public void flush() {
-        if (buffers.isEmpty()) return;
+        boolean anyBuilding = false;
+        for (BufferBuilder builder : buffers.values()) {
+            if (builder.building()) {
+                anyBuilding = true;
+                break;
+            }
+        }
+        if (!anyBuilding) {
+            return;
+        }
 
         isFlushing = true;
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthFunc(515);
+        Minecraft minecraft = Minecraft.getInstance();
+        boolean fabulous = Minecraft.useShaderTransparency();
+        try {
+            if (fabulous) {
+                Framebuffer translucentTarget = minecraft.levelRenderer.getTranslucentTarget();
+                if (translucentTarget != null) {
+                    translucentTarget.bindWrite(false);
+                } else {
+                    fabulous = false;
+                }
+            }
 
-        for (Map.Entry<RenderType, BufferBuilder> entry : buffers.entrySet()) {
-            RenderType type = entry.getKey();
-            BufferBuilder builder = entry.getValue();
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthFunc(515);
 
-            builder.end();
-            type.setupRenderState();
-            WorldVertexBufferUploader.end(builder);
-            type.clearRenderState();
+            for (Map.Entry<RenderType, BufferBuilder> entry : buffers.entrySet()) {
+                RenderType type = entry.getKey();
+                BufferBuilder builder = entry.getValue();
+                if (!builder.building()) {
+                    continue;
+                }
+
+                builder.end();
+                type.setupRenderState();
+                RenderSystem.disableFog();
+                RenderSystem.disableCull();
+                WorldVertexBufferUploader.end(builder);
+                type.clearRenderState();
+            }
+        } finally {
+            if (fabulous) {
+                minecraft.getMainRenderTarget().bindWrite(false);
+            }
+            isFlushing = false;
         }
-        buffers.clear();
-
-        isFlushing = false;
-    }
-
-    @SubscribeEvent
-    public static void onRenderWorldLast(RenderWorldLastEvent event) {
-        INSTANCE.flush();
     }
 }
