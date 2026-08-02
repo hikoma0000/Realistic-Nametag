@@ -1,5 +1,7 @@
 package io.github.hikoma0000.realisticnametag.mixin.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.hikoma0000.realisticnametag.client.DelayedNametagRenderer;
 import io.github.hikoma0000.realisticnametag.config.ServerConfig;
 import net.minecraft.client.Minecraft;
@@ -10,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -25,7 +28,8 @@ import net.minecraft.client.renderer.RenderType;
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin<T extends Entity> {
 
-    private boolean shouldApplyRealisticNametag() {
+    @Unique
+    private boolean realisticnametag$shouldApplyRealisticNametag() {
         if (ServerConfig.DISABLE_MOD.get()) {
             return false;
         }
@@ -44,14 +48,14 @@ public abstract class EntityRendererMixin<T extends Entity> {
             argsOnly = true
     )
     private MultiBufferSource modifyBufferSource(MultiBufferSource original) {
-        if (shouldApplyRealisticNametag()) {
+        if (realisticnametag$shouldApplyRealisticNametag()) {
             return DelayedNametagRenderer.INSTANCE;
         }
         return original;
     }
 
 
-    @Redirect(
+    @WrapOperation(
             method = "renderNameTag(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/network/chat/Component;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IF)V",
             at = @At(
                     value = "INVOKE",
@@ -59,8 +63,8 @@ public abstract class EntityRendererMixin<T extends Entity> {
                     ordinal = 0
             )
     )
-    private int redirectFirstDrawInBatch(Font font, Component text, float x, float y, int color, boolean dropShadow, Matrix4f pose, MultiBufferSource bufferSource, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords) {
-        if (shouldApplyRealisticNametag()) {
+    private int redirectFirstDrawInBatch(Font font, Component text, float x, float y, int color, boolean dropShadow, Matrix4f pose, MultiBufferSource bufferSource, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords, Operation<Integer> original) {
+        if (realisticnametag$shouldApplyRealisticNametag()) {
             if (backgroundColor != 0) {
                 VertexConsumer vertexConsumer = DelayedNametagRenderer.INSTANCE.getBuffer(RenderType.textBackground());
                 float x1 = x - 1;
@@ -75,12 +79,12 @@ public abstract class EntityRendererMixin<T extends Entity> {
                 vertexConsumer.addVertex(pose, x2, y2, z).setColor(0, 0, 0, alpha).setLight(packedLightCoords);
                 vertexConsumer.addVertex(pose, x2, y1, z).setColor(0, 0, 0, alpha).setLight(packedLightCoords);
             }
-            return font.drawInBatch(text, x, y, -1, false, pose, DelayedNametagRenderer.INSTANCE, Font.DisplayMode.NORMAL, 0, packedLightCoords);
+            return original.call(font, text, x, y, -1, false, pose, DelayedNametagRenderer.INSTANCE, Font.DisplayMode.NORMAL, 0, packedLightCoords);
         }
-        return font.drawInBatch(text, x, y, color, dropShadow, pose, bufferSource, displayMode, backgroundColor, packedLightCoords);
+        return original.call(font, text, x, y, color, dropShadow, pose, bufferSource, displayMode, backgroundColor, packedLightCoords);
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "renderNameTag(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/network/chat/Component;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IF)V",
             at = @At(
                     value = "INVOKE",
@@ -88,10 +92,10 @@ public abstract class EntityRendererMixin<T extends Entity> {
                     ordinal = 1
             )
     )
-    private int redirectSecondDrawInBatch(Font font, Component text, float x, float y, int color, boolean dropShadow, Matrix4f pose, MultiBufferSource bufferSource, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords) {
-        if (shouldApplyRealisticNametag()) {
+    private int wrapSecondDrawInBatch(Font font, Component text, float x, float y, int color, boolean dropShadow, Matrix4f pose, MultiBufferSource bufferSource, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords, Operation<Integer> original) {
+        if (realisticnametag$shouldApplyRealisticNametag()) {
             return 0;
         }
-        return font.drawInBatch(text, x, y, color, dropShadow, pose, bufferSource, displayMode, backgroundColor, packedLightCoords);
+        return original.call(font, text, x, y, color, dropShadow, pose, bufferSource, displayMode, backgroundColor, packedLightCoords);
     }
 }

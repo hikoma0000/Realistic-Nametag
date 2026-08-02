@@ -7,14 +7,15 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Pseudo
 @Mixin(targets = "de.maxhenkel.voicechat.voice.client.RenderEvents", remap = false)
 public class VoiceChatCompatMixin {
-
-    private boolean shouldApplyRealisticNametag() {
+    @Unique
+    private boolean realisticnametag$shouldApplyRealisticNametag() {
         if (ServerConfig.DISABLE_MOD.get()) {
             return false;
         }
@@ -34,7 +35,7 @@ public class VoiceChatCompatMixin {
             ordinal = 0
     )
     private MultiBufferSource modifyVoiceChatBufferSource(MultiBufferSource originalBuffer) {
-        if (shouldApplyRealisticNametag()) {
+        if (realisticnametag$shouldApplyRealisticNametag()) {
             return DelayedNametagRenderer.INSTANCE;
         }
         return originalBuffer;
