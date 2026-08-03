@@ -34,6 +34,14 @@ This mod is compatible with the following mods:
 ## Known Issues
 Currently, there is an incompatibility with the `namepain` mod. A solution is being investigated.
 
+---
+
+## Credits
+- [BluSpring](https://github.com/BluSpring)
+  - Improved mixin compatibility
+
+---
+
 ## My Mods
 
 [![](https://github.com/hikoma0000/Advancement-Trophies-Reforged/blob/gallery/data/logo.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/advancement-trophies-reforged)[![](https://github.com/hikoma0000/Inspectability-Reforged/blob/gallery/data/logo.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/inspectability-reforged)
